@@ -1,0 +1,11 @@
+{
+  "name": "shopping-list-check-off",
+  "version": "1.0.0",
+  "description": "exercise for Coursera Single page app with  AnglurJS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yohanes debebe",
+  "license": "ISC"
+}
