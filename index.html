@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Shopping List Check Off</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+
+     
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+
+    <style>
+      .emptyMessage {
+        font-weight: bold;
+        color: red;
+        font-size: 1.2em;
+      }
+      li {
+        margin-bottom: 7px;
+        font-size: 1.2em;
+      }
+      li > button {
+        margin-left: 6px;
+      }
+      button > span {
+        color: green;
+      }
+      
+    </style>
+  </head>
+<body ng-app="ShoppingListCheckOff">
+  <div class="container">
+  <h1>Shopping List Check Off</h1>
+
+  <div class="row">
+
+    <!-- To Buy List -->
+    <div class="col-md-6" ng-controller="ToBuyController as toBuyCtrl">
+     <h2>To Buy:</h2>
+     <ul ng-repeat="staff in toBuyCtrl.toBuyList">
+        <li>Buy {{staff.quantity}} {{staff.name}} <button class="btn btn-default" ng-click="toBuyCtrl.buyStaff($index, staff.name, staff.quantity)"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+     </ul>
+     
+     <div ng-if="toBuyCtrl.toBuyList.length==0" class="emptyMessage">Everything is bought!</div>
+    </div>
+
+    <!-- Already Bought List -->
+    <div class="col-md-6" ng-controller="AlreadyBoughtController as boughtCtrl">
+     
+     <div >
+      <h2 ng-if="boughtCtrl.alreadyBoughtList.length == 0">Nothing bought yet:</h2>
+      <h2 ng-if="boughtCtrl.alreadyBoughtList.length > 0">Already Bought:</h2>
+      <ul ng-repeat="staff in boughtCtrl.alreadyBoughtList">
+          <!-- <li>{{boughtCtrl.alreadyBoughtList}}</li> -->
+        <li>Bought {{staff.quantity}} {{staff.name}} </li>
+      </ul>
+      <!-- <div ng-if="boughtCtrl.alreadyBoughtList.length == 0" class="emptyMessage">Nothing bought yet.</div>
+      <div ng-if="boughtCtrl.alreadyBoughtList.length > 0" class="emptyMessage"> bought some.</div>
+       -->
+     </div> 
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+//var ShoppingListCheckOff = angular.
+
+
+// (function() {
+//   'use strict';
+
+//   angular.module('ShoppingListCheckOff', []);
+//   ShoppingListCheckOff.controller("ToBuyController")
+
+// })();
+
+var ShoppingListCheckOff = angular.module("ShoppingListCheckOff", [])
+ShoppingListCheckOff.controller("ToBuyController", ToBuyController);
+ShoppingListCheckOff.controller("AlreadyBoughtController", AlreadyBoughtController);
+ShoppingListCheckOff.service("ShoppingListCheckOffService", ShoppingListCheckOffService);
+
+function ShoppingListCheckOffService(){
+    
+  var service = this;
+
+    var toBuy = [
+      {name: "cookies", quantity: 10},
+      {name: "burger", quantity: 3},
+      {name: "biscuit", quantity: 8},
+      {name: "coke", quantity: 8},
+      {name: "fanta", quantity: 6}
+    ];
+
+    var alreadyBought = []
+
+    var transactionMsg = "Nothing bought yet";
+
+    service.getToBuy = function(){
+        return toBuy;
+    }
+
+    service.buyStaff = function(indexOftoBuyStaff, nameStaff, quantityStaff){
+       toBuy.splice(indexOftoBuyStaff, 1);
+       alreadyBought.push({name: nameStaff, quantity: quantityStaff});
+    }
+
+    // service.
+
+    service.getAlreadyBought = function(){
+       return alreadyBought;
+    }
+
+
+    //service.getMyBoughtStaff = 
+
+    
+    
+
+ // { name: "cookies", quantity: 10 } would be listed as Buy 10 cookies.
+
+  //Bought item_quantity item_name
+  //Bought 10 cookies
+
+  //"Everything is bought!
+
+
+
+  
+}
+
+
+// ToBuyController.$inject = ['ShoppingListCheckOffService'];
+// AlreadyBoughtController = ['ShoppingListCheckOffService'];
+function ToBuyController(ShoppingListCheckOffService){
+  var toBuyCtrl = this;
+  toBuyCtrl.toBuyList =  ShoppingListCheckOffService.getToBuy();
+  toBuyCtrl.buyStaff = ShoppingListCheckOffService.buyStaff;
+
+
+}
+
+
+ function AlreadyBoughtController(ShoppingListCheckOffService){
+  var boughtCtrl = this;
+  boughtCtrl.alreadyBoughtList = ShoppingListCheckOffService.getAlreadyBought();
+  boughtCtrl.totalBoughtNum = boughtCtrl.alreadyBoughtList.length;
+  boughtCtrl.msg;
+
+  //  boughtCtrl.$watch("totalBoughtNum, function(){
+  //   if(oldValue != newValue){
+  //     alert("changeeeeeeeeeeee");
+  //   }
+  //  })
+  // console.log("total bought = " + boughtCtrl.totalBoughtNum);
+
+
+
+}
+
+</script>
+</body>
+</html>
